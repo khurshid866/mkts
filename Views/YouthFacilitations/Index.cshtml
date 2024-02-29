@@ -1,0 +1,89 @@
+﻿@model IEnumerable<MKTS.Models.Gaamzan.YouthFacilitation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Gaamzan Youth Facilitation</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticipantName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassBatch)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModeFacilitation)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SkillEnhanced)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassBatch)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModeFacilitation)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SkillEnhanced)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.YouthFacilitationID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.YouthFacilitationID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.YouthFacilitationID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

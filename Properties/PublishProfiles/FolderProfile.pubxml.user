@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <_PublishTargetUrl>C:\inetpub\wwwroot\MKTS</_PublishTargetUrl>
+    <History>True|2022-07-31T08:03:26.6560246Z;True|2022-07-31T12:42:11.4544645+05:00;True|2022-07-25T15:09:30.5515276+05:00;True|2022-07-25T15:04:45.1247677+05:00;False|2022-07-25T15:03:36.9707746+05:00;True|2022-07-25T14:24:23.0898350+05:00;True|2022-01-18T10:42:47.2880363+05:00;True|2022-01-17T17:36:47.6744197+05:00;True|2022-01-10T18:00:17.0251737+05:00;False|2022-01-10T17:58:25.1645153+05:00;True|2021-12-23T16:21:09.4578873+05:00;True|2021-11-23T10:57:49.5981288+05:00;True|2021-11-04T13:17:11.7064625+05:00;True|2021-10-26T14:49:42.7111657+05:00;</History>
+  </PropertyGroup>
+</Project>

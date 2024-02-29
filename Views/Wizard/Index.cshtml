@@ -1,0 +1,164 @@
+﻿
+@{
+    ViewData["Title"] = "Upload File";
+    var allClear = ViewBag.AllClear;
+}
+<section class="content-header">
+    <h2>Step1: Upload File and Validate Data</h2>
+    <div class="text-danger"> @ViewBag.Error</div>
+    <div class="text-blue">@ViewBag.SuccessMessage</div>
+    @* New code to add file Upload and button for importing the data from excel *@
+    <div class="row">
+        <form method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div >
+                <input type="file" id="file" name=" fileUpload" class="form-control" />
+            </div>
+            <div class="col-md-2">
+                @* <input type="button" id="btnUpload" value="Upload File" />*@
+                <input disabled="disabled" type="submit" value="Upload File" class="btn btn-danger" />
+            </div>
+        </form>
+
+
+        <div class="col-md-8">
+            @* <input type="button" id="btnUpload" value="Upload File" />*@
+            @{
+                if (allClear == true)
+                { 
+                    <a asp-action="Duplicates" asp-controller="Wizard" asp-route-id="1" asp-route-tot="@ViewBag.TotEnroll" class=" btn btn-success">Enrollment Sheet </a> @*of @subtotal*@
+                    <a asp-action="Duplicates" asp-controller="Wizard" asp-route-id="2" asp-route-tot="@ViewBag.TotReten" class=" btn btn-info">Retention Sheet </a> @*of @subtotal*@
+                    <a asp-action="Duplicates" asp-controller="Wizard" asp-route-id="3" asp-route-tot="@ViewBag.TotSup" class=" btn btn-warning">Supplies Sheet </a> @*of @subtotal*@
+                    <a asp-action="Duplicates" asp-controller="Wizard" asp-route-id="4" asp-route-tot="@ViewBag.TotTrain" class=" btn btn-primary">Training Sheet </a> @*of @subtotal*@
+            }
+            else if (allClear == false)
+            {
+                <text> Please fix all errors highlighted as red and upload file again
+                
+                <br />  @ViewBag.EnrollError
+                <br />  @ViewBag.RetenError
+                <br />  @ViewBag.SupplyError
+                <br />  @ViewBag.TrainError
+                </text>
+            }
+            }
+        </div>
+    </div>
+</section>
+<!-- Main content -->
+<section class="content">
+    @*--- Existing code for exporting data to excel----*@
+    <div class="row">
+        <div class="col-md-8" style="padding-top:10px;">
+            @*    <button asp-page-handler="ExporttoExcel">Export to Excel</button>*@
+        </div>
+    </div>
+    @*<div id="divData">*@
+
+
+        <div class="card card-primary card-outline card-tabs">
+            <div class="card-header p-0 pt-1 border-bottom-0">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item" ><a class="nav-link active" href="#tab_1" data-toggle="tab">1. Enrollment</a></li>
+                    <li class="nav-item" ><a class="nav-link" href="#tab_2" data-toggle="tab">2. Retention</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="#tab_3" data-toggle="tab">3. Supplies</a></li>
+                    <li class="nav-item"><a  class="nav-link" href="#tab_4" data-toggle="tab">4. Training</a></li>
+                    <li class="pull-right"><a href="#" class="text-muted"><i class="fa fa-gear"></i></a></li>
+                </ul>
+            </div>
+            <div class="card-body">
+                <div class="tab-content">
+                    <div class="tab-pane active" id="tab_1">
+
+                        @{ if (ViewBag.EnrollmentData != null)
+                            {
+                                <text><h3>Sheet 1: Enrollment </h3></text>
+                            } }
+
+                        <div>
+                            @Html.Raw(ViewBag.EnrollmentData)
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_2">
+                        @{ if (ViewBag.RetentionData != null)
+                            {
+                                <text><h3>Sheet 2: Retention </h3></text>
+                            } }
+
+                        <div>
+                            @Html.Raw(ViewBag.RetentionData)
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_3">
+                        @{ if (ViewBag.suppliesData != null)
+                            {
+                                <text><h3>Sheet 3: Infrastructure & Supplies </h3></text>
+                            } }
+
+                        <div>
+                            @Html.Raw(ViewBag.suppliesData)
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                    <div class="tab-pane" id="tab_4">
+                        @{ if (ViewBag.TrainingData != null)
+                            {
+                                <text><h3>Sheet 4: Training </h3></text>
+                            } }
+
+                        <div>
+                            @Html.Raw(ViewBag.TrainingData)
+                        </div>
+                    </div>
+                    <!-- /.tab-pane -->
+                </div>
+                <!-- /.tab-content -->
+            </div>
+        </div>
+        @*</div>*@
+
+
+
+    <div>
+       
+    </div>
+
+    <div>
+       
+    </div>
+
+    <div>
+      
+    </div>
+    </section>
+
+    @section Scripts {
+        <script>
+            $(document).ready(
+                function () {
+                    $('input:file').change(
+                        function () {
+                            if ($(this).val()) {
+                                //alert("File changed")
+
+                                $('input:submit').attr('disabled', false);
+                                //$('#' + $(this).attr('class')).prop('disabled', false);
+                                // or, as has been pointed out elsewhere:
+                                // $('input:submit').removeAttr('disabled');
+                            }
+                            else {
+                                $('input:submit').attr('disabled', true);
+                            }
+                        }
+                    );
+                });
+
+
+                                        //code not in use
+        </script>
+    }
+
+

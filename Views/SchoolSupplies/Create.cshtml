@@ -1,0 +1,165 @@
+﻿@model MKTS.Models.Data.SchoolSupply
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<h4>SchoolSupply</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SchoolName" class="control-label"></label>
+                <input asp-for="SchoolName" class="form-control" />
+                <span asp-validation-for="SchoolName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolType" class="control-label"></label>
+                <input asp-for="SchoolType" class="form-control" />
+                <span asp-validation-for="SchoolType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SchoolLevel" class="control-label"></label>
+                <input asp-for="SchoolLevel" class="form-control" />
+                <span asp-validation-for="SchoolLevel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Province" class="control-label"></label>
+                <input asp-for="Province" class="form-control" />
+                <span asp-validation-for="Province" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="District" class="control-label"></label>
+                <input asp-for="District" class="form-control" />
+                <span asp-validation-for="District" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Partner" class="control-label"></label>
+                <input asp-for="Partner" class="form-control" />
+                <span asp-validation-for="Partner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Year" class="control-label"></label>
+                <input asp-for="Year" class="form-control" />
+                <span asp-validation-for="Year" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WashroomRepair" class="control-label"></label>
+                <input asp-for="WashroomRepair" class="form-control" />
+                <span asp-validation-for="WashroomRepair" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConstructionWall" class="control-label"></label>
+                <input asp-for="ConstructionWall" class="form-control" />
+                <span asp-validation-for="ConstructionWall" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ConstructionWashroom" class="control-label"></label>
+                <input asp-for="ConstructionWashroom" class="form-control" />
+                <span asp-validation-for="ConstructionWashroom" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallationHandpump" class="control-label"></label>
+                <input asp-for="InstallationHandpump" class="form-control" />
+                <span asp-validation-for="InstallationHandpump" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RefurbishmentSchool" class="control-label"></label>
+                <input asp-for="RefurbishmentSchool" class="form-control" />
+                <span asp-validation-for="RefurbishmentSchool" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallationSolarPanel" class="control-label"></label>
+                <input asp-for="InstallationSolarPanel" class="form-control" />
+                <span asp-validation-for="InstallationSolarPanel" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RepairSchoolGate" class="control-label"></label>
+                <input asp-for="RepairSchoolGate" class="form-control" />
+                <span asp-validation-for="RepairSchoolGate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstallationFiltrationPlant" class="control-label"></label>
+                <input asp-for="InstallationFiltrationPlant" class="form-control" />
+                <span asp-validation-for="InstallationFiltrationPlant" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WhiteWash" class="control-label"></label>
+                <input asp-for="WhiteWash" class="form-control" />
+                <span asp-validation-for="WhiteWash" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ElectricRepairments" class="control-label"></label>
+                <input asp-for="ElectricRepairments" class="form-control" />
+                <span asp-validation-for="ElectricRepairments" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Flooring" class="control-label"></label>
+                <input asp-for="Flooring" class="form-control" />
+                <span asp-validation-for="Flooring" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PlasticMat" class="control-label"></label>
+                <input asp-for="PlasticMat" class="form-control" />
+                <span asp-validation-for="PlasticMat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WaterCooler" class="control-label"></label>
+                <input asp-for="WaterCooler" class="form-control" />
+                <span asp-validation-for="WaterCooler" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BlackBoard" class="control-label"></label>
+                <input asp-for="BlackBoard" class="form-control" />
+                <span asp-validation-for="BlackBoard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TeacherChair" class="control-label"></label>
+                <input asp-for="TeacherChair" class="form-control" />
+                <span asp-validation-for="TeacherChair" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AttendanceRegister" class="control-label"></label>
+                <input asp-for="AttendanceRegister" class="form-control" />
+                <span asp-validation-for="AttendanceRegister" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WaterTank" class="control-label"></label>
+                <input asp-for="WaterTank" class="form-control" />
+                <span asp-validation-for="WaterTank" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Desk" class="control-label"></label>
+                <input asp-for="Desk" class="form-control" />
+                <span asp-validation-for="Desk" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CupboardRack" class="control-label"></label>
+                <input asp-for="CupboardRack" class="form-control" />
+                <span asp-validation-for="CupboardRack" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ElectricCooler" class="control-label"></label>
+                <input asp-for="ElectricCooler" class="form-control" />
+                <span asp-validation-for="ElectricCooler" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+

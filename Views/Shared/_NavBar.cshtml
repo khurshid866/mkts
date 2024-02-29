@@ -1,0 +1,173 @@
+﻿@inject MKTS.Services.Profile.ProfileManager ProfileManager
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a asp-area="" asp-controller="Home" asp-action="Index" class="brand-link">
+        
+        <img src="~/image/Alight.jpg" alt="Logo" class="brand-image  elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">ALight</span>
+    </a>
+    <!-- Sidebar -->
+    <div class="sidebar os-host os-theme-light os-host-overflow os-host-overflow-y os-host-resize-disabled os-host-scrollbar-horizontal-hidden os-host-transition">
+        <div class="os-resize-observer-host observed"><div class="os-resize-observer" style="left: 0px; right: auto;"></div></div><div class="os-size-auto-observer observed" style="height: calc(100% + 1px); float: left;"><div class="os-resize-observer"></div></div><div class="os-content-glue" style="margin: 0px -8px; width: 249px; height: 186px;"></div><div class="os-padding">
+            <div class="os-viewport os-viewport-native-scrollbars-invisible" style="overflow-y: scroll;">
+                <div class="os-content" style="padding: 0px 8px; height: 100%; width: 100%;">
+                    <!-- Sidebar user panel (optional) -->
+                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                        <div class="image">
+                            <img src="~/image/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block">Administrator</a>
+                        </div>
+                    </div>
+
+                    <!-- Sidebar Menu -->
+                    <nav class="mt-2">
+                        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                            <!-- Add icons to the links using the .nav-icon class
+    with font-awesome or any other icon font library -->
+                            @*@if (User.IsInRole("Administrator"))
+        {*@
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-user"></i>
+                                    <p>
+                                        Admin Panel
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Index">   <i class="fa fa-book nav-icon"></i><p>Users</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Provinces" asp-action="Index"><i class="fa fa-book nav-icon"></i> <p> Provinces </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Districts" asp-action="Index"><i class="fa fa-book nav-icon"></i><p> Districts </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Partners" asp-action="Index"><i class="fa fa-book nav-icon nav-icon"></i> <p>Partners </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Seasons" asp-action="Index"><i class="fa fa-book nav-icon"></i> <p>Seasons </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Years" asp-action="Index"><i class="fa fa-book nav-icon"></i> <p>Years </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="TargetGroups" asp-action="Index"><i class="fa fa-book nav-icon"></i><p> Training Groups</p> </a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="TrainingConductedBy" asp-action="Index"><i class="fa fa-book nav-icon"></i> <p>Training Conducted by</p> </a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="TrainingThemes" asp-action="Index"><i class="fa fa-book nav-icon"></i><p> Training Themes </p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="TypeOfParticipants" asp-action="Index"><i class="fa fa-book nav-icon"></i><p> Training Participants </p></a></li>
+
+                                    @*<li class="nav-item">
+                    <a href="pages/charts/flot.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Flot</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="pages/charts/inline.html" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Inline</p>
+                    </a>
+                </li>*@
+                                </ul>
+                            </li>
+
+                            @*}*@
+                            <li class="nav-item has-treeview menu-open">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                        Million Kids
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @*<li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Index">       <i class="fa fa-book nav-icon"></i><p>Users</p></a></li>*@
+                                    <li class="nav-item"><a class="nav-link" asp-controller="MillionKids" asp-action="Index"><i class="far fa-circle nav-icon "></i> <p>Summary Dashboard</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="MillionKids" asp-action="Enrollment"><i class="far fa-circle nav-icon text-blue"></i> <p>Enrollment Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="retention" asp-action="Index"><i class="far fa-circle nav-icon text-red"></i><p> Retention Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="supply" asp-action="Index"><i class="far fa-circle nav-icon text-yellow"></i> <p>Infrastructure & Supplies</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="training" asp-action="Index"><i class="far fa-circle nav-icon text-green"></i><p> Teachers Training </p></a></li>
+                                    @*@if (User.IsInRole("Administrator")|| User.IsInRole("Operator"))
+                {*@
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-table"></i>
+                                            <p>
+                                                Raw Data
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            @*<li class="nav-item"><a class="nav-link" asp-controller="training" asp-action="Index"><i class="far fa-circle nav-icon text-green"></i><p> Teachers Training Analysis</p></a></li>*@
+                                            <li class="nav-item"><a class="nav-link" asp-controller="Wizard" asp-action="Index"><i class="far fa-file-excel nav-icon  "></i><p>upload Excel</p> </a></li>
+                                            @*@if (User.IsInRole("Administrator"))
+                        {*@
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="RawData" asp-action="Enrollments" asp-route-id="926982"><i class="fas fa-th nav-icon "></i><p>Student Enrollment</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="RawData" asp-action="Retentions" asp-route-id="926982"><i class="fas fa-th nav-icon "></i><p>Student Retention</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="SchoolSupplies" asp-action="index"><i class="fas fa-th nav-icon "></i><p>Infrastructure & Supplies</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="Trainings" asp-action="index"><i class="fas fa-th nav-icon "></i><p>Teachers Training</p></a></li>
+                                            @*}*@
+                                        </ul>
+                                    </li>
+
+                                    @*}*@
+
+                                </ul>
+                            </li>
+
+
+                            @***** Gaamzan *****@
+                            <li class="nav-item has-treeview menu-open">
+                                <a href="#" class="nav-link ">
+                                    <i class="nav-icon fas fa-tachometer-alt"></i>
+                                    <p>
+                                       Gaamzan
+                                        <i class="right fas fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    @*<li class="nav-item"><a class="nav-link" asp-controller="Users" asp-action="Index">       <i class="fa fa-book nav-icon"></i><p>Users</p></a></li>*@
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Gaamzan" asp-action="Index"><i class="far fa-circle nav-icon "></i> <p>Main Data Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Gaamzan" asp-action="Enrollment"><i class="far fa-circle nav-icon text-blue"></i> <p>Student Enrolled Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Gaamzan" asp-action="Training"><i class="far fa-circle nav-icon text-red"></i><p> Training Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Gaamzan" asp-action="SchoolSupport"><i class="far fa-circle nav-icon text-yellow"></i> <p>School Suported Analysis</p></a></li>
+                                    <li class="nav-item"><a class="nav-link" asp-controller="Gaamzan" asp-action="Youth"><i class="far fa-circle nav-icon text-green"></i><p> Youth Facilitations Analysis</p></a></li>
+                                    @*@if (User.IsInRole("Administrator")|| User.IsInRole("Operator"))
+                {*@
+                                    <li class="nav-item has-treeview">
+                                        <a href="#" class="nav-link">
+                                            <i class="nav-icon fas fa-table"></i>
+                                            <p>
+                                                Raw Data
+                                                <i class="fas fa-angle-left right"></i>
+                                            </p>
+                                        </a>
+                                        <ul class="nav nav-treeview">
+                                            @*<li class="nav-item"><a class="nav-link" asp-controller="training" asp-action="Index"><i class="far fa-circle nav-icon text-green"></i><p> Teachers Training Analysis</p></a></li>*@
+                                            <li class="nav-item"><a class="nav-link" asp-controller="GaamzanWizard" asp-action="Index"><i class="far fa-file-excel nav-icon  "></i><p>upload Excel</p> </a></li>
+                                            @*@if (User.IsInRole("Administrator"))
+                        {*@
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="GaamzanEnrollments" asp-action="index" asp-route-id="926982"><i class="fas fa-th nav-icon "></i><p>Student Enrollment</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="GaamzanTrainings" asp-action="Index" asp-route-id="926982"><i class="fas fa-th nav-icon "></i><p>Trainings</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="SchoolSupporteds" asp-action="index"><i class="fas fa-th nav-icon "></i><p>School Supported</p></a></li>
+                                            <li class="nav-item)"><a class="nav-link" asp-controller="YouthFacilitations" asp-action="index"><i class="fas fa-th nav-icon "></i><p>Youth Facilitations</p></a></li>
+                                            @*}*@
+                                        </ul>
+                                    </li>
+
+                                    @*}*@
+
+                                </ul>
+                            </li>
+
+                            @* default  menu *@
+
+
+                        </ul>
+                    </nav>
+                    <!-- /.sidebar-menu -->
+                </div>
+            </div>
+        </div>
+        <div class="os-scrollbar os-scrollbar-horizontal os-scrollbar-unusable os-scrollbar-auto-hidden">
+            <div class="os-scrollbar-track">
+                <div class="os-scrollbar-handle" style="width: 100%; transform: translate(0px, 0px);">
+                </div>
+            </div>
+        </div>
+        <div class="os-scrollbar os-scrollbar-vertical"><div class="os-scrollbar-track"><div class="os-scrollbar-handle" style="height: 14.8649%; transform: translate(0px, 0px);"></div></div></div>        <div class="os-scrollbar-corner"></div>
+    </div>
+    <!-- /.sidebar -->
+</aside>

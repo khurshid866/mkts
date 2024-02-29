@@ -1,0 +1,863 @@
+﻿@model MKTS.Controllers.DashboardData
+@{
+    ViewData["Title"] = "Dashboard 1";
+    string BlueColor = "bg-Mtks-Light-blue";
+    string YellowColor = "bg-Mtks-yellow";
+    string PinkColor = "bg-Mtks-Pink";
+    string PurpleColor = "bg-Mtks-blue";
+
+
+}
+@*@section Styles {*@
+<!-- Morris charts -->
+<link rel="stylesheet" href="~/lib/morris.js/morris.css" />
+<style>
+    .MainDiv {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .AjkStyle {
+        position: absolute;
+        top: 39.5%;
+        right: 4%;
+    }
+
+    .BaloStyle {
+        position: absolute;
+        top: 26.8%;
+        left: 2%;
+    }
+
+    .GBStyle {
+        position: absolute;
+        top: 6.2%;
+        left: 32%;
+    }
+
+    .ICTStyle {
+        position: absolute;
+        top: 53.5%;
+        right: 20%;
+    }
+
+    .KPKStyle {
+        position: absolute;
+        top: 14%;
+        left: 8%;
+    }
+
+    .PunjabStyle {
+        position: absolute;
+        top: 63.8%;
+        right: 29%;
+    }
+
+    .SindhStyle {
+        position: absolute;
+        top: 73.6%;
+        right: 39%;
+    }
+</style>
+<style>
+    .bg-Mtks-Pink {
+        background-color: #EF6099 !important;
+        color: #fff;
+    }
+
+    .Mtks-Pink {
+        color: #EF6099 !important;
+    }
+
+    .bg-Mtks-Light-blue {
+        background-color: #00ABEB !important;
+        color: #fff;
+    }
+
+    .Mtks-Light-blue {
+        color: #00ABEB !important;
+    }
+
+    .bg-Mtks-blue {
+        background-color: #202daf !important;
+        color: #fff;
+    }
+
+    .Mtks-blue {
+        color: #202daf !important;
+    }
+
+    .bg-Mtks-yellow {
+        background-color: #ffc216 !important;
+        color: #fff;
+    }
+
+    .Mtks-yellow {
+        color: #ffc216 !important;
+    }
+
+    .bg-green-gradient {
+        background: #00a65a !important;
+        color: #fff;
+    }
+
+    h2.cen,
+    h3.cen,
+    .cen {
+        font-family: Century Gothic;
+    }
+</style>
+@*}*@
+@section Scripts {
+    <!-- Morris.js charts -->
+    <script src="~/lib/raphael/raphael.min.js"></script>
+    <script src="~/lib/morris.js/morris.min.js"></script>
+    @*<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.bundle.min.js"></script></script>*@
+
+    <script src="~/lib/ChartJs/Chart.min.js"></script>
+    <!-- page script -->
+    <script>
+        $(function () {
+            var dd= @Html.Raw(Json.Serialize(Model));
+            /* ChartJS
+             * -------
+             * Here we will create a few charts using ChartJS
+             */
+
+            //--------------
+            //- Teacher Trained -
+            //--------------
+
+            new Chart(document.getElementById("polar-chart"), {
+                type: 'horizontalBar',
+            data: {
+
+               // labels: ["AJK", "Balochi", "GB", "ICT", "KP", "Punjab", "Sindh"],
+                labels: @Html.Raw(Json.Serialize(Model.TrainingType)),
+
+                datasets: [
+                    {
+                        label: "Male Teachers",
+                        backgroundColor: 'rgba(102,64,58,1)',
+                        data: @Html.Raw(Json.Serialize(Model.TrainingMale)),
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                    },
+                    {
+                        label: "Female Teachers",
+                        backgroundColor: 'rgba(215, 26, 50, 1)',
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        data:@Html.Raw(Json.Serialize(Model.TrainingFemale)) ,
+                    }
+                ]
+            },
+            options: {
+
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        afterTitle: function () {
+                            window.total = 0;
+                        },
+                        label: function (tooltipItem, data) {
+                            var corporation = data.datasets[tooltipItem.datasetIndex].label;
+                            var valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            window.total += valor;
+                            return corporation + ": " + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                        },
+                        footer: function () {
+                            return "TOTAL: " + window.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+                        }
+                    }
+                },
+                //legend: { display: false },
+                title: {
+                    //display: true,
+                    //text: 'Predicted world population (millions) in 2050'
+                },
+                // },
+                onComplete: function () {
+
+                    var ctx = this.chart.ctx;
+                    ctx.font = this.scale.font;
+                    ctx.fillStyle = this.scale.textColor
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "bottom";
+
+                    this.datasets.forEach(function (dataset) {
+                        dataset.points.forEach(function (points) {
+                            ctx.fillText(points.value, points.x, points.y - 10);
+                        });
+                    })
+                }
+
+            }
+
+        });
+
+
+            //-------------
+            //- DONUT CHART -
+            //--------------
+            new Chart(document.getElementById("doughnut-chart"), {
+                type: 'pie',
+                data: {
+                    labels: ["Students Retained", "Students Dropout"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ['rgba(250,164,26)', 'rgba(222, 217, 201)'],
+                            data: @Html.Raw(Json.Serialize(Model.retention))
+                        }
+                    ]
+                },
+                options: {
+                    //title: {
+                    //    display: true,
+                    //    fontsize: 14,
+                    //    text: 'Total de Pedidos por Situação'
+                    //},
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                var data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map(function (label, i) {
+                                        var meta = chart.getDatasetMeta(0);
+                                        var ds = data.datasets[0];
+                                        var arc = meta.data[i];
+                                        var custom = arc && arc.custom || {};
+                                        var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                                        var arcOpts = chart.options.elements.arc;
+                                        var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                                        var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                                        var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+                                        // We get the value of the current label
+                                        var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                                        return {
+                                            // Instead of `text: label,`
+                                            // We add the value to the string
+                                            text: label + " : " + value +"%",
+                                            fillStyle: fill,
+                                            strokeStyle: stroke,
+                                            lineWidth: bw,
+                                            hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                            index: i
+                                        };
+                                    });
+                                } else {
+                                    return [];
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            //-------------
+            //- RADAR CHART -
+            //-------------
+            // Get context with jQuery - using jQuery's .get() method.
+            //new Chart(document.getElementById("doughnut-chart"), {
+            //    type: 'radar',
+            //    data: {
+            //        labels: ["Washroom Repair", "Construction of Wall", "Construction of Washroom", "Installation of Handpump", "Refurbishment of School", "Installation of Solar Panel", "Repair of School Gate", "Installation of Filtration Plant", "White Wash", "Electric Repairments", "Flooring"],
+            //        datasets: [
+            //            {
+            //                label: "Primay",
+            //                fill: true,
+            //                backgroundColor: "rgba(179,181,198,0.2)",
+            //                borderColor: "rgba(179,181,198,1)",
+            //                pointBorderColor: "#fff",
+            //                pointBackgroundColor: "rgba(179,181,198,1)",
+            //                data: [25, 46, 43, 37, 10, 33, 31, 14, 32, 50, 12]
+            //            }, {
+            //                label: "Middle",
+            //                fill: true,
+            //                backgroundColor: "rgba(255,99,132,0.2)",
+            //                borderColor: "rgba(255,99,132,1)",
+            //                pointBorderColor: "#fff",
+            //                pointBackgroundColor: "rgba(255,99,132,1)",
+            //                pointBorderColor: "#fff",
+            //                data: [10, 16, 41, 38, 48, 26, 13, 48, 26, 19, 26]
+            //            }, {
+            //                label: "High",
+            //                fill: true,
+            //                backgroundColor: "rgba(75, 192, 192,0.2)",
+            //                borderColor: "rgba(75, 192, 192,1)",
+            //                pointBorderColor: "rgba(75, 192, 192,1)",
+            //                pointBackgroundColor: "rgba(255,99,132,1)",
+            //                pointBorderColor: "rgba(75, 192, 192,1)",
+            //                data: [43, 49, 23, 22, 21, 27, 43, 46, 44, 10, 33]
+            //            }
+            //        ]
+            //    },
+            //    options: {
+            //        title: {
+            //            // display: true,
+            //            text: 'Distribution in % of world population'
+            //        }
+            //    }
+            //});
+
+            //-------------
+            //- BAR CHART -
+            //-------------
+           // var PEnroll =@Html.Raw(Json.Serialize( Model.Enrollment));
+            new Chart(document.getElementById("bar-chart"), {
+                type: 'bar',
+                data: {
+                    //labels: @Html.Raw(Json.Serialize(Model.Province)),
+                    labels: ["Washroom Repair", "Construction of Wall", "Construction of Washroom", "Installation of Handpump", "Refurbishment of School", "Installation of Solar Panel", "Repair of School Gate"],
+                    datasets: [
+                        {
+                            label: "Enrollment",
+                            backgroundColor: ['rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 75, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(5, 159, 64, 1)',
+                                'rgba(355, 99, 232, 1)'],
+                            borderColor: [
+                                'rgba(255,99,132,1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 75, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(5, 159, 64, 1)',
+                                'rgba(355, 99, 232, 0.5,1)'],
+                            borderWidth: 1,
+                            data: @Html.Raw(Json.Serialize(Model.InfraVal)),
+                            //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        }
+                    ]
+                },
+                options: {
+                    legend: { display: false },
+                    title: {
+                        //display: true,
+                        //text: 'Predicted world population (millions) in 2050'
+                    },
+                    // },
+                    onComplete: function () {
+
+                        var ctx = this.chart.ctx;
+                        ctx.font = this.scale.font;
+                        ctx.fillStyle = this.scale.textColor
+                        ctx.textAlign = "center";
+                        ctx.textBaseline = "bottom";
+
+                        this.datasets.forEach(function (dataset) {
+                            dataset.points.forEach(function (points) {
+                                ctx.fillText(points.value, points.x, points.y - 10);
+                            });
+                        })
+                    }
+
+                }
+
+            });
+
+            //-------------
+            //- Line Chart -
+            //-------------
+            //new Chart(document.getElementById("line-chart"), {
+            //    type: 'line',
+            //    data: {
+            //        labels: ["Plastic Mat", " Water Cooler", "Black Board", "Teacher Chair", "Attendance Registar", "Water Tank", "	Desk", "Cupboard/Rack", "Electric Cooler"],
+            //        datasets: [{
+            //            data: [41, 31, 39, 31, 34, 35, 32, 36, 30],
+            //            label: "AJK",
+            //            borderColor: "#3e95cd",
+            //            fill: false
+            //        }, {
+            //            data: [43, 49, 36, 49, 48, 49, 41, 44, 32],
+            //            label: "Baluchistan",
+            //            borderColor: "#8e5ea2",
+            //            fill: false
+            //        }, {
+            //            data: [21, 28, 20, 17, 31, 27, 31, 29, 28],
+            //            label: "GB",
+            //            borderColor: "#3cba9f",
+            //            fill: false
+            //        }, {
+            //            data: [49, 40, 44, 48, 41, 48, 46, 40, 43],
+            //            label: "ICT",
+            //            borderColor: "#e8c3b9",
+            //            fill: false
+            //        }, {
+            //            data: [31, 30, 32, 39, 35, 36, 32, 32, 36],
+            //            label: "KP",
+            //            borderColor: "#c45850",
+            //            fill: false
+            //        }, {
+            //            data: [30, 28, 22, 28, 27, 22, 25, 29, 23],
+            //            label: "Punjab",
+            //            borderColor: "#845850",
+            //            fill: false
+            //        }, {
+            //            data: [19, 22, 15, 22, 36, 30, 18, 50, 46],
+            //            label: "Sindh",
+            //            borderColor: "#245850",
+            //            fill: false
+            //        }
+            //        ]
+            //    },
+            //    options: {
+            //        title: {
+            //            // display: true,
+            //            //  text: 'World population per region (in millions)'
+            //        }
+            //    }
+            //});
+        })</script>
+}
+<!-- Content Header (Page header) -->
+
+
+<section class="content-header">
+    <h1 class="cen">
+         Alight landmark Acheivements 
+        @*<small>out reach</small>*@
+    </h1>
+</section>
+<section class="content">
+
+
+    <div class="row">
+        <div class="col-lg-5">
+            <div class="row">
+                <div class="col-lg-6 col-xs-6">
+                    <!-- small box -->
+                    <div class="info-box">
+                        <div class="info-box-content text-center">
+                            <h1> <span class="info-box-number Mtks-Pink">19</span></h1>
+                            <span class="info-box-text"><i><b> Years </b> </i></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-6 col-xs-6">
+                    <!-- small box -->
+                    <div class="info-box">
+                        <div class="info-box-content text-center">
+                            <h1> <span class="info-box-number Mtks-Pink">70</span></h1>
+                            <span class="info-box-text"><i><b> Districts </b> </i></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="row">
+                <div class="col-lg-4 col-xs-6">
+                    <!-- small box -->
+                    <div class="info-box">
+                        <div class="info-box-content text-center">
+                            <h1> <span class="info-box-number Mtks-Pink">62</span></h1>
+                            <span class="info-box-text"><i><b> Projects </b> </i></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-xs-6">
+                    <!-- small box -->
+                    <div class="info-box">
+                        <div class="info-box-content text-center">
+                            <h1> <span class="info-box-number Mtks-Pink">46</span></h1>
+                            <span class="info-box-text"><i><b> Partners </b> </i></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+                <!-- ./col -->
+                <div class="col-lg-4 col-xs-6">
+                    <!-- small box --> <div class="info-box">
+                        <div class="info-box-content text-center">
+                            <h1> <span class="info-box-number Mtks-Pink">06</span></h1>
+                            <span class="info-box-text"><i><b> Empergencies </b> </i></span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                </div>
+                <!-- ./col -->
+            </div>
+        </div>
+    </div>
+
+    
+
+
+
+</section>
+<section class="content-header">
+    <h1 class="cen">
+        Sectors and their  Key indicator Achievements
+        <small>Geograchic Footprint </small>
+    </h1>
+    @*<ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li class="active">Dashboard</li>
+        </ol>*@
+</section>
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-8">
+            @*Education*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @BlueColor">
+                        <span class="info-box-icon"><i class="fa fa-graduation-cap"></i></span>
+
+                        <div class="info-box-content">
+                            <h2> <span class="info-box-text"> EDU</span></h2>
+
+                            <span class="info-box-number"></span>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue ">215,410</span>  </h5>
+                            <span class="info-box-text">Students Enrolled</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue">128,410</span> </h5>
+                            <span class="info-box-text">NFS Established</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue">1,410</span></h5>
+                            <span class="info-box-text">Teachers Trained</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+
+            @*Health*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @YellowColor">
+                        <span class="info-box-icon"><i class="fa fa-medkit"></i></span>
+
+                        <div class="info-box-content">
+                            <h2> <span class="info-box-text"> Health</span></h2>
+                            <h5> <span class="info-box-number"></span> </h5>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">215,410</span></h5>
+                            <span class="info-box-text">Facilities Esablish</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">128,410</span></h5>
+                            <span class="info-box-text">Workers Trained</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">1,410</span></h5>
+                            <span class="info-box-text">Patients Treated</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+
+
+            @*Skill*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @PinkColor">
+                        <span class="info-box-icon"><i class="fa fa-cog"></i></span>
+
+                        <div class="info-box-content">
+                            <h5>  Skills <br /> </h5>
+                            <h6>  Development</h6>
+
+                            @* <h5> <span class="info-box-number">41,410</span>*@
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Pink">215,410</span></h5>
+                            <span class="info-box-text"># of Graduates</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Pink">128,410</span></h5>
+                            <span class="info-box-text">Skills Enhanced</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+
+
+            @*Liveihood*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @PurpleColor">
+                        <span class="info-box-icon"><i class="fa fa-link"></i></span>
+
+                        <div class="info-box-content">
+                            <h5>  Livei <br /> </h5>
+                            <h5>  hood</h5>
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-blue">215,410</span></h5>
+                            <span class="info-box-text">Beneficiaries @*Supported*@</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-blue">128,410</span></h5>
+                            <span class="info-box-text">LiveStock @*Distribution*@</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-blue">1,410</span></h5>
+                            <span class="info-box-text">Agricultural @*Assistance*@</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+
+            @*Wash*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @BlueColor">
+                        <span class="info-box-icon"><i class="fa fa-tint"></i></span>
+
+                        <div class="info-box-content">
+                            <h2><span class="info-box-text">Wash</span></h2>
+
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue">215,410</span></h5>
+                            <span class="info-box-text text-xs">@*Households Provided with <br />Safe Drinking Water*@</span>
+                            <span class="info-box-text text-xs"> Safe Drinking Water<br />to Households </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue">128,410</span></h5>
+                            <span class="info-box-text">Hygiene Kits </span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-Light-blue">1,410</span></h5>
+                            <span class="info-box-text text-xs">Community Activists <br />Trained on WASH</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+
+            @*Refugees*@
+            <div class="row">
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box @YellowColor">
+                        <span class="info-box-icon"><i class="far fa-bookmark"></i></span>
+
+                        <div class="info-box-content">
+                            <span style="font-size:x-large "> Refugees </span>
+
+
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">215,410</span></h5>
+                            <span class="info-box-text text-xs">Households Supported</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">128,410</span></h5>
+                            <span class="info-box-text">Shelter Provided</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+                <div class="col-md-3 col-sm-6 col-12">
+                    <div class="info-box">
+
+
+                        <div class="info-box-content">
+                            <h5> <span class="info-box-number Mtks-yellow">1,410</span></h5>
+                            <span class="info-box-text text-xs">Cash for Work Scheme</span>
+                        </div>
+                        <!-- /.info-box-content -->
+                    </div>
+                    <!-- /.info-box -->
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            @*Geo Foot Print*@
+            <div class="box-body MainDiv">
+                @*<img src="/img/EnrollMapDistricts.jpg" width="100%">*@
+                <img src="~/img/GeoFootprint.jpeg" width="300" height="585" />
+                @*<div class="AjkStyle"><h5 class="cen">430</h5></div>
+            <div class="BaloStyle "><h5 class="cen">16,010</h5></div>
+            <div class="GBStyle"><h5 class="cen">574</h5></div>
+            <div class="ICTStyle "><h5 class="cen">8,890</h5></div>
+            <div class="KPKStyle"><h5 class="cen">154,218</h5></div>
+            <div class="PunjabStyle"><h5 class="cen">591,520</h5></div>
+            <div class="SindhStyle"><h5 class="cen">44,750</h5></div>*@
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box box-success center">
+                        <div class="box-header with-border">
+                            <h3 class="box-title cen"></h3>
+                            <div class="box-tools pull-right">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+
+
+
+
+
+
+
+</section>
+<!-- /.content -->

@@ -1,0 +1,401 @@
+﻿@model MKTS.Models.Data.RawDataCollection
+
+@{
+    ViewData["Title"] = "Duplicates";
+}
+
+<!-- Main content -->
+<section class="content">
+    <div class="row">
+        <div class="col-md-12">
+            @*@using (Html.BeginForm())
+            {*@
+                <div class="text-danger"> @ViewBag.Error</div>
+
+             <form asp-action="DuplicatePartial" method="post">
+
+                 <input type="hidden" asp-for="IsRecDup" />
+                 <input type="hidden" asp-for="id" />
+                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                 @{
+                     switch (Model.id)
+                     {
+                         case 1:
+                             <h3>  Sheet 1 Enrollment</h3>
+                             <table class="table table-striped table-bordered dataTables-example">
+                                 <thead>
+                                     <tr>
+                                         <th>Serial No   </th>
+                                         <th>Province   </th>
+                                         <th>District   </th>
+                                         <th>Year of Enrollment   </th>
+                                         <th>Enrollment Season   </th>
+                                         <th>Type of Education  </th>
+                                         <th>Partner Name   </th>
+                                         <th>Class   </th>
+                                         <th>Newly Enrolled Boys   </th>
+                                         <th>  Newly Enrolled Girls </th>
+                                         <th>  Duplicate  </th>
+
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     @for (int i = 0; i < Model.Enrollments.Count; i++)
+                                     {
+                                         <tr>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].EnrollmentID" />    <text> @Model.Enrollments[i].SerialNo</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].Province" /><text> @Model.Enrollments[i].Province</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].District" /><text> @Model.Enrollments[i].District</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].Year" /><text> @Model.Enrollments[i].Year</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].Season" /><text> @Model.Enrollments[i].Season</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].EducationType" /><text> @Model.Enrollments[i].EducationType</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].Partner" /><text> @Model.Enrollments[i].Partner</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].Class" /><text> @Model.Enrollments[i].Class</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].EnrolledBoys" /><text> @Model.Enrollments[i].EnrolledBoys</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].EnrolledGirls" /><text> @Model.Enrollments[i].EnrolledGirls</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Enrollments[i].IsDuplicate" />
+                                                 <input type="hidden" asp-for="Enrollments[i].CreatedBy" />
+                                                 <input type="hidden" asp-for="Enrollments[i].CreatedDate" />
+                                                 <input type="hidden" asp-for="Enrollments[i].UpdatedBy" />
+                                                 <input type="hidden" asp-for="Enrollments[i].UpdatedDate" />
+
+
+                                                 @{ if (@Model.Enrollments[i].IsDuplicate)
+                                                     {<text>Yes</text>}
+                                                 else
+                                                 {<text>No</text>}
+                                                 }
+                                             </td>
+
+                                         </tr>
+                                     }
+                                 </tbody>
+
+                             </table>
+
+                             break;
+
+                         case 2:
+                             <h3>  Sheet 2 Retention</h3>
+                             <table class="table table-striped table-bordered dataTables-example">
+                                 <thead>
+                                     <tr>
+                                         <th>Serial No   </th>
+                                         <th>Province   </th>
+                                         <th>Partner   </th>
+                                         <th>Year </th>
+                                         <th> Dropout Boys </th>
+                                         <th> Dropout Girls </th>
+                                         <th>Retention Boys</th>
+                                         <th>Retention Girls</th>
+                                         <th>  Duplicate  </th>
+
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     @for (int i = 0; i < Model.Retentions.Count; i++)
+                                     {
+                                         <tr>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].RetentionID" /> <text> @Model.Retentions[i].SerialNo</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].Province" /><text> @Model.Retentions[i].Province</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].Partner" /><text> @Model.Retentions[i].Partner</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].Year" /><text> @Model.Retentions[i].Year</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].DropoutBoys" /><text> @Model.Retentions[i].DropoutBoys</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].DropoutGirls" /><text> @Model.Retentions[i].DropoutGirls</text>
+                                             </td>
+                                             <td>
+                                                 <text> @(100 - Model.Retentions[i].DropoutBoys)</text>
+                                             </td>
+                                             <td>
+                                                 <text> @(100 - Model.Retentions[i].DropoutGirls)</text>
+                                             </td>
+
+                                             <td>
+                                                 <input type="hidden" asp-for="Retentions[i].IsDuplicate" />
+                                                 <input type="hidden" asp-for="Retentions[i].CreatedBy" />
+                                                 <input type="hidden" asp-for="Retentions[i].CreatedDate" />
+                                                 <input type="hidden" asp-for="Retentions[i].UpdatedBy" />
+                                                 <input type="hidden" asp-for="Retentions[i].UpdatedDate" />
+
+                                                 @{ if (@Model.Retentions[i].IsDuplicate)
+                                                     {<text>Yes</text>}
+                                                 else
+                                                 {<text>No</text>}
+                                                 }
+                                             </td>
+
+                                         </tr>
+                                     }
+                                 </tbody>
+
+                             </table>
+
+                             break;
+
+                         case 3:
+                             <h3>  Sheet 3 Supplies & Infrastructure</h3>
+                             <table class="table table-striped table-bordered dataTables-example">
+                                 <thead>
+                                     <tr>
+                                         <th>	Serial No.	</th>
+                                         <th>	School Name	</th>
+                                         <th>	School Type	</th>
+                                         <th>	School Level	</th>
+                                         <th>	Gender	</th>
+                                         <th>	Province	</th>
+                                         <th>	District	</th>
+                                         <th>	Partner	</th>
+                                         <th>	Year	</th>
+                                         <th>	Washroom Repair	</th>
+                                         <th>	Construction Wall	</th>
+                                         <th>	Construction Washroom	</th>
+                                         <th>	Installation Handpump	</th>
+                                         <th>	Refurbishment School	</th>
+                                         <th>	Installation SolarPanel	</th>
+                                         <th>	RepairSchool Gate	</th>
+                                         <th>	Installation Filtration Plant	</th>
+                                         <th>	White Wash	</th>
+                                         <th>	Electric Repairments	</th>
+                                         <th>	Flooring	</th>
+                                         <th>	Plastic Mat	</th>
+                                         <th>	Water Cooler	</th>
+                                         <th>	Black Board	</th>
+                                         <th>	Teacher Chair	</th>
+                                         <th>	Attendance Register	</th>
+                                         <th>	Water Tank	</th>
+                                         <th>	Desk	</th>
+                                         <th>	Cupboard Rack	</th>
+                                         <th>	Electric Cooler	</th>
+                                         <th>    Is Duplicate </th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     @for (int i = 0; i < Model.SchoolSupplies.Count; i++)
+                                     {
+                                         <tr>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].SSID" />    <text> @Model.SchoolSupplies[i].SerialNo</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].SchoolName" />    <text> @Model.SchoolSupplies[i].SchoolName</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].SchoolType" />    <text> @Model.SchoolSupplies[i].SchoolType</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].SchoolLevel" />    <text> @Model.SchoolSupplies[i].SchoolLevel</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Gender" />    <text> @Model.SchoolSupplies[i].Gender</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Province" />    <text> @Model.SchoolSupplies[i].Province</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].District" />    <text> @Model.SchoolSupplies[i].District</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Partner" />    <text> @Model.SchoolSupplies[i].Partner</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Year" />    <text> @Model.SchoolSupplies[i].Year</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].WashroomRepair" />    <text> @Model.SchoolSupplies[i].WashroomRepair</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].ConstructionWall" />    <text> @Model.SchoolSupplies[i].ConstructionWall</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].ConstructionWashroom" />    <text> @Model.SchoolSupplies[i].ConstructionWashroom</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].InstallationHandpump" />    <text> @Model.SchoolSupplies[i].InstallationHandpump</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].RefurbishmentSchool" />    <text> @Model.SchoolSupplies[i].RefurbishmentSchool</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].InstallationSolarPanel" />    <text> @Model.SchoolSupplies[i].InstallationSolarPanel</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].RepairSchoolGate" />    <text> @Model.SchoolSupplies[i].RepairSchoolGate</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].InstallationFiltrationPlant" />    <text> @Model.SchoolSupplies[i].InstallationFiltrationPlant</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].WhiteWash" />    <text> @Model.SchoolSupplies[i].WhiteWash</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].ElectricRepairments" />    <text> @Model.SchoolSupplies[i].ElectricRepairments</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Flooring" />    <text> @Model.SchoolSupplies[i].Flooring</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].PlasticMat" />    <text> @Model.SchoolSupplies[i].PlasticMat</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].WaterCooler" />    <text> @Model.SchoolSupplies[i].WaterCooler</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].BlackBoard" />    <text> @Model.SchoolSupplies[i].BlackBoard</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].TeacherChair" />    <text> @Model.SchoolSupplies[i].TeacherChair</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].AttendanceRegister" />    <text> @Model.SchoolSupplies[i].AttendanceRegister</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].WaterTank" />    <text> @Model.SchoolSupplies[i].WaterTank</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].Desk" />    <text> @Model.SchoolSupplies[i].Desk</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].CupboardRack" />    <text> @Model.SchoolSupplies[i].CupboardRack</text></td>
+                                             <td> <input type="hidden" asp-for="SchoolSupplies[i].ElectricCooler" />    <text> @Model.SchoolSupplies[i].ElectricCooler</text></td>
+                                             <td>
+                                                 <input type="hidden" asp-for="SchoolSupplies[i].IsDuplicate" />
+                                                 <input type="hidden" asp-for="SchoolSupplies[i].CreatedBy" />
+                                                 <input type="hidden" asp-for="SchoolSupplies[i].CreatedDate" />
+                                                 <input type="hidden" asp-for="SchoolSupplies[i].UpdatedBy" />
+                                                 <input type="hidden" asp-for="SchoolSupplies[i].UpdatedDate" />
+
+                                                 @{ if (@Model.SchoolSupplies[i].IsDuplicate)
+                                                     {<text>Yes</text>}
+                                                 else
+                                                 {<text>No</text>}
+                                                 }
+                                             </td>
+                                         </tr>
+                                     }
+                                 </tbody>
+
+                             </table>
+
+                             break;
+
+
+                         case 4:
+                             <h3>  Sheet 4 Training</h3>
+                             <table class="table table-striped table-bordered dataTables-example">
+                                 <thead>
+                                     <tr>
+                                         <th>Serial No   </th>
+                                         <th>Province   </th>
+                                         <th>District   </th>
+                                         <th>Training Type   </th>
+                                         <th>Training Theme </th>
+                                         <th>Partners  </th>
+                                         <th>Target Group  </th>
+                                         <th>Training Duration   </th>
+                                         <th>Start Date   </th>
+                                         <th>End Date   </th>
+                                         <th>  Conducted by </th>
+
+                                         <th>Male 1</th>
+                                         <th>Female 1</th>
+
+                                         <th></th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     @for (int i = 0; i < Model.Trainings.Count; i++)
+                                     {
+                                         <tr>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].TrainingID" />    <text> @Model.Trainings[i].SerialNo</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].ProvinceName" /><text> @Model.Trainings[i].ProvinceName</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].DistrictName" /><text> @Model.Trainings[i].DistrictName</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].TrainingType" /><text> @Model.Trainings[i].TrainingType</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].ThemeName" /><text> @Model.Trainings[i].ThemeName</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].Partner" /><text> @Model.Trainings[i].Partner</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].GroupName" /><text> @Model.Trainings[i].GroupName</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].Duration" /><text> @Model.Trainings[i].Duration</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].StartDate" /><text> @String.Format("{0:dd/MM/yyyy}", Model.Trainings[i].StartDate)  </text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].EndDate" /><text> @String.Format("{0:dd/MM/yyyy}", Model.Trainings[i].EndDate)</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].ConductedBy" /><text> @Model.Trainings[i].ConductedBy</text>
+                                             </td>
+
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].Male1" /><text> @Model.Trainings[i].Male1</text>
+                                             </td>
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].Female1" /><text> @Model.Trainings[i].Female1</text>
+                                             </td>
+
+                                             <td>
+                                                 <input type="hidden" asp-for="Trainings[i].IsDuplicate" />
+                                                 <input type="hidden" asp-for="Trainings[i].CreatedBy" />
+                                                 <input type="hidden" asp-for="Trainings[i].CreatedDate" />
+                                                 <input type="hidden" asp-for="Trainings[i].UpdatedBy" />
+                                                 <input type="hidden" asp-for="Trainings[i].UpdatedDate" />
+
+
+                                                 @{ if (@Model.Trainings[i].IsDuplicate)
+                                                     {<text>Yes</text>}
+                                                 else
+                                                 {<text>No</text>}
+                                                 }
+                                             </td>
+
+                                         </tr>
+                                     }
+                                 </tbody>
+
+                             </table>
+
+                             break;
+
+                     }
+                 }
+
+
+
+                 <div class="form-group">
+                     <input type="submit" value="Upload Data" class="btn btn-success" />
+                 </div>
+             </form>
+        @*}*@
+        </div>
+    </div>
+
+</section>
+
+
+
+    <!-- DataTables -->
+    <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+
+
+    <!-- DataTables -->
+    <script src="~/libs/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.bootstrap.min.js"></script>
+    <script src="~/libs/datatables/js/dataTables.buttons.min.js"></script>
+    <script src="~/libs/datatables/js/jszip.min.js"></script>
+    <script src="~/libs/datatables/js/buttons.html5.min.js"></script>
+    <script type="text/javascript">
+
+        // $('#Region-DropdownID').val(null).change();
+        // alert('JQuery Entered')
+        $(document).ready(function () {
+            // $('#Region-DropdownID').val(null).change();
+            // alert('JQuery Entered')
+            $('.dataTables-example').DataTable({
+                "scrollY": 350,
+                "scrollX": true,
+                //'ordering': false,
+                'paging':false,
+                dom: 'Bfrtip',
+               
+
+
+                
+
+            });
+            //alert('Table Generated')
+        });
+                //alert('Table Generated')
+
+
+    </script>

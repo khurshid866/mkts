@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MKTS</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/lib/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" />
+
+    <link href="~/lib/admin-lte/dist/css/adminlte.css" rel="stylesheet" />
+    <link href="~/lib/fontawesome-free/css/all.css" rel="stylesheet" />
+</head>
+<body class="sidebar-mini layout-fixed" >
+    <div class="wrapper">
+        @await Html.PartialAsync("_Header")
+
+        <!-- =============================================== -->
+        <!-- Left side column. contains the sidebar -->
+        @await Html.PartialAsync("_NavBar")
+        <!-- =============================================== -->
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper" style="padding:7px">
+
+            @*@await Html.PartialAsync("_StatusMessage", TempData["StatusMessage"])*@
+
+            @RenderBody()
+        </div>
+
+        @*<nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">MKTS</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="TaskHeads" asp-action="Index">Tasks</a>
+                        </li>
+                        <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="TaskTypes" asp-action="Index">Task Types</a>                        </li>
+                        <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="Tasksources" asp-action="Index">Task Source</a>                        </li>
+                        <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="TaskHeadStatus" asp-action="Index">Task status</a>                        </li>
+                        <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="TaskTypes" asp-action="Index">Task Types</a>                        </li>
+                        <li class="nav-item"> <a class="nav-link text-dark" asp-area="" asp-controller="Departments" asp-action="Index">Departments</a>                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>*@
+
+        @*<div class="container">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>*@
+
+        <footer class="main-footer">
+            <div class="container">
+                &copy; @DateTime.Now.Year - Alight - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            </div>
+        </footer>
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/admin-lte/dist/js/adminlte.js"></script>
+    <script src="~/lib/overlayScrollbars/js/OverlayScrollbars.min.js"></script>
+    @*<script src="~/lib/overlayScrollbars/js/jquery.overlayScrollbars.js"></script>*@
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

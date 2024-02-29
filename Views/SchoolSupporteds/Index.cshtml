@@ -1,0 +1,161 @@
+﻿@model IEnumerable<MKTS.Models.Gaamzan.SchoolSupported>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Gaamzan School Supported</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Partner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Washroom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SolarPanel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterTank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlasticMat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterCooler)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlackBoard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherChair)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Registar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Shelter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LearningMaterial)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LCDs)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tablets)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreatedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UpdatedBy)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Washroom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SolarPanel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterTank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlasticMat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterCooler)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlackBoard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherChair)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Registar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Shelter)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LearningMaterial)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LCDs)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tablets)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CreatedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UpdatedBy)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SchoolSupportID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SchoolSupportID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SchoolSupportID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

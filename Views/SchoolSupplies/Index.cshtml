@@ -1,0 +1,197 @@
+﻿@model IEnumerable<MKTS.Models.Data.SchoolSupply>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SchoolLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Province)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.District)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Partner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WashroomRepair)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConstructionWall)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConstructionWashroom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InstallationHandpump)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RefurbishmentSchool)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InstallationSolarPanel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RepairSchoolGate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.InstallationFiltrationPlant)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WhiteWash)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectricRepairments)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Flooring)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PlasticMat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterCooler)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BlackBoard)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TeacherChair)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AttendanceRegister)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WaterTank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Desk)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CupboardRack)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ElectricCooler)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SchoolLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Gender)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Province)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.District)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WashroomRepair)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConstructionWall)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConstructionWashroom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationHandpump)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RefurbishmentSchool)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationSolarPanel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RepairSchoolGate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.InstallationFiltrationPlant)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WhiteWash)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectricRepairments)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Flooring)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PlasticMat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterCooler)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BlackBoard)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TeacherChair)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AttendanceRegister)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WaterTank)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Desk)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CupboardRack)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElectricCooler)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SSID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SSID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SSID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

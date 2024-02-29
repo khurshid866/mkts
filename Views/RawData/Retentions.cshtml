@@ -1,0 +1,71 @@
+﻿@model IEnumerable<MKTS.Models.Data.Retention>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Uploaded Student Retention so far</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RetentionID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Province)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Partner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Year)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DropoutBoys)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DropoutGirls)
+            </th>
+            <th>
+                @Html.DisplayName("Retention Boys")
+            </th>
+            <th>
+                @Html.DisplayName("Retention Girls")
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.RetentionID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Province)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Year)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DropoutBoys)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DropoutGirls)
+            </td>
+
+            <td>
+                <text> @(100-item.DropoutBoys)</text>
+            </td>
+            <td>
+                <text> @(100 - item.DropoutGirls)</text>
+            </td>
+
+        </tr>
+        }
+    </tbody>
+</table>

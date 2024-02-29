@@ -1,0 +1,185 @@
+﻿
+@{
+    ViewData["Title"] = "Supply Analysis";
+}
+
+@*@section Styles {*@
+    <style>
+
+        .bg-Mtks-Pink {
+            background-color: #EF6099 !important;
+            color: #fff;
+        }
+
+        .bg-Mtks-Light-blue {
+            background-color: #00ABEB !important
+        }
+
+        .bg-Mtks-blue {
+            background-color: #202daf !important; color: #fff;
+        }
+
+        #divLoading {
+            position: absolute;
+            display: none;
+            top: 20%;
+            left: 20%;
+            right: 5%;
+            bottom: 10%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+
+        h2.cen,
+        h3.cen,
+        .cen {
+            font-family: Century Gothic;
+        }
+    </style>
+@*}*@
+
+@*<div class="box-header with-border">*@
+<h2 class="cen">Infrastructure & Supplies Detail Analysis</h2>
+
+<section class="content">
+    <!--Filer row-->
+    <div class="box box-default">
+        <div class="box-header with-border">
+            <form id="myform" autocomplete="off">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Province</label>
+                            <select id="ProvinceID" class="form-control" asp-items="ViewBag.Province" tabindex="1"></select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">District</label>
+                            <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"District"))" tabindex="2"></select>
+                        </div>
+                    </div>
+                    @*<div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Partner</label>
+                            <select id="PartnerID" class="form-control" asp-items="ViewBag.Partner" tabindex="4"></select>
+                        </div>
+                    </div>*@
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="control-label">Year</label>
+                            <select id="YearID" class="form-control" asp-items="ViewBag.Year" tabindex="4"></select>
+                        </div>
+                    </div>
+                    @*<div class="col-md-3">
+                            <div class="form-group">
+                                <label class="control-label">Gender</label>
+                                <select id="DistrictID" class="form-control" asp-items="@(new SelectList(string.Empty,"DistrictID","DistrictName"))" tabindex="2"></select>
+                            </div>
+                        </div>*@
+                </div>
+            </form>
+            <div class="box-tools pull-right">
+                @* @Html.ActionLink("Detail View of Raw Data", "RawData", null, new { @class = "btn btn-primary btn-xs", target = "_blank" })*@
+                @*<a href="/BaselineGenerals/RawData/" class="btn btn-success search" type="button" target="_blank">Detail View of Raw Data</a> @*of @subtotal*@
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div id="dynamicContentContainer"></div>
+            </div>
+        </div>
+    </div>
+
+    @*<div class="col-md-1" id="divLoading">
+        @*<img src="~/img/ajax-loader.gif" width="40" height="40" />*@
+    @* <img src="~/img/sspinner.gif" width="40" height="40" />* @
+        </div>*@
+
+    <div id="divLoading">
+        <div id="loading-div" class="ui-corner-all text-center fa-align-center" style="margin-top:10%; color:white">
+            <div id="loadingbar"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+            <h3 style="color:white;font-weight:normal;">Generating Analysis....</h3>
+        </div>
+    </div>
+
+    <div id="dynamicContentContainer"></div>
+</section>
+@section Scripts {
+
+    <script src="~/lib/ChartJs/Chart.min.js"></script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script type="text/javascript">
+
+        //var year = 2019;
+        $("#divLoading").show();
+        $.get('@Url.Action("Filter",new { ProvinceID = "Over All" , YearID = 0,PartnerID = "Over All"})', function (content) {
+            $("#dynamicContentContainer").html(content);
+            $("#divLoading").hide();
+        });
+        // on Region ID
+        $('#ProvinceID').change(function () {
+           
+            var url = '@Url.Content("~/Supply")' + "/GetDistrict";
+            var ddlsource = "#ProvinceID";
+            $.getJSON(url, { ProvinceID: $(ddlsource).val() }, function (data) {
+                var items = '';
+
+                $("#DistrictID").empty();
+                $.each(data, function (i, designation) {
+                    //items += "<option value='" + designation.text + "'>" + designation.text + "</option>";
+                    items += "<option>" + designation.text + "</option>";
+                });
+                $("#DistrictID").html(items);
+            });
+
+            var YearID = $("#YearID").val();
+            //alert(TypeID);
+            //Filter Code
+            var ProvinceID = $(this).val();
+            var PartnerID = $("#PartnerID").val();
+            //alert(ProvinceID);
+            //debugger;
+            $("#divLoading").show();
+              $.get('@Url.Action("Filter")', { ProvinceID: ProvinceID,  YearID: YearID, PartnerID: PartnerID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+          $('#DistrictID').change(function () {
+              var DistrictID = $(this).val();
+              var ProvinceID = $("#ProvinceID").val();
+              var YearID = $("#YearID").val();
+              var PartnerID = $("#PartnerID").val();
+            $("#divLoading").show();
+              $.get('@Url.Action("Filter")', { ProvinceID: ProvinceID, DistrictID: DistrictID, YearID: YearID, PartnerID: PartnerID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+
+        $('#PartnerID').change(function () {
+            var DistrictID = $("#DistrictID").val();
+              var ProvinceID = $("#ProvinceID").val();
+              var YearID = $("#YearID").val();
+            var PartnerID = $("#PartnerID").val();
+            $("#divLoading").show();
+              $.get('@Url.Action("Filter")', { ProvinceID: ProvinceID, DistrictID: DistrictID, YearID: YearID, PartnerID: PartnerID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+        $('#YearID').change(function () {
+            var yearID = $(this).val();
+             var DistrictID = $("#DistrictID").val();
+            var PartnerID = $("#PartnerID").val();
+             var ProvinceID = $("#ProvinceID").val();
+            $("#divLoading").show();
+            $.get('@Url.Action("Filter")', { ProvinceID: ProvinceID, DistrictID: DistrictID, YearID: yearID, PartnerID: PartnerID}, function(content){
+                $("#dynamicContentContainer").html(content);
+                $("#divLoading").hide();
+            });
+        });
+    </script>
+}

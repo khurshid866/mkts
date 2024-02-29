@@ -1,0 +1,503 @@
+﻿@model MKTS.Controllers.RetentionController.RetentionData
+<!-- Small boxes (Stat box) -->
+<div class="row">
+  
+    <!-- ./col -->
+
+</div>
+
+<!-- District row -->
+<div class="row">
+    <!-- DONUT CHART -->
+    <div class="col-md-4">
+        <div class="box box-info">
+            <div class="box-header with-border">
+                <class ="box-title cen">
+                    Overall Retention & Dropout </>
+                    @*<div class="box-tools pull-right">
+                            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                <i class="fa fa-minus"></i>
+                            </button>
+                            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                        </div>*@
+            </div>
+            <br />
+
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="doughnut-chart" width="800" height="550"></canvas>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <div class="col-md-4">
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <class ="box-title cen">Boys Retention & Dropout </>
+            </div>
+            <br />
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="doughnut-boys" width="800" height="550"></canvas>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+    <br />
+    <div class="col-md-4">
+        <div class="box box-warning">
+            <div class="box-header with-border">
+                <class ="box-title cen">
+                    Girls Retention & Dropout </>
+                    @*<div class="box-tools pull-right">
+                    <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                        <i class="fa fa-minus"></i>
+                    </button>
+                    <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                </div>*@
+            </div>
+            <br />
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="doughnut-girls" width="800" height="550"></canvas>
+
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+</div>
+<br />
+    <!-- /.row(main row) -->
+    <!-- /.col(LEFT) -->
+<div class="row">
+
+    <div class="col-md-6">
+        <!-- BAR CHART -->
+        <div class="box box-success">
+            <div class="box-header with-border">
+                <class ="box-title cen">Province-wise Retention and Dropout Percentages</h3>
+            </div>
+            <br />
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="bar-chart" width="800" height="500"></canvas>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+
+    </div>
+    <br />
+    <div class="col-md-6">
+        <!-- Bar chart -->
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <class ="box-title cen">Partner-wise Retention and Dropout Percentages</h3>
+            </div>
+            <br />
+            <div class="box-body">
+                <div class="chart">
+                    <canvas id="Partner-chart" width="800" height="500"></canvas>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+    </div>
+
+    <!-- /.box -->
+</div>
+
+
+
+    @section Styles {
+        <!-- DataTables -->
+        <link rel="stylesheet" href="~/libs/datatables/css/dataTables.bootstrap.min.css">
+    }
+<script src="~/lib/ChartJs/Chart.min.js"></script>
+    <script>
+    $(function () {
+
+        //-------------
+        //- DONUT CHART -
+        //--------------
+        var droput =parseFloat( @((Model.ProvinceBoysDropout.Average() + Model.ProvinceGirlsDropout.Average()) / 2)).toFixed(2);
+        var retention = parseFloat(100 - droput).toFixed(2);
+        new Chart(document.getElementById("doughnut-chart"), {
+                type: 'doughnut',
+                data: {
+                    labels: ["Retained", "Drop-out"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ['rgba(102,64,58,1)', 'rgba(215, 26, 50, 1)'],
+                            data: [retention, droput]
+                        }
+                    ]
+                },
+                options: {
+                    //title: {
+                    //    display: true,
+                    //    fontsize: 14,
+                    //    text: 'Total de Pedidos por Situação'
+                    //},
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                var data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map(function (label, i) {
+                                        var meta = chart.getDatasetMeta(0);
+                                        var ds = data.datasets[0];
+                                        var arc = meta.data[i];
+                                        var custom = arc && arc.custom || {};
+                                        var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                                        var arcOpts = chart.options.elements.arc;
+                                        var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                                        var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                                        var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+                                        // We get the value of the current label
+                                        var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                                        return {
+                                            // Instead of `text: label,`
+                                            // We add the value to the string
+                                            text: label + " : " + value + "%",
+                                            fillStyle: fill,
+                                            strokeStyle: stroke,
+                                            lineWidth: bw,
+                                            hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                            index: i
+                                        };
+                                    });
+                                } else {
+                                    return [];
+                                }
+                            }
+                        }
+                    }
+                }
+        });
+
+       //-------------
+        //- DONUT Boys -
+        //--------------
+        var droputBoys =parseFloat( @(Model.ProvinceBoysDropout.Average() )).toFixed(2);
+        var retentionBoys = parseFloat(100 - droputBoys).toFixed(2);
+        new Chart(document.getElementById("doughnut-boys"), {
+                type: 'doughnut',
+                data: {
+                    labels: ["Retained", "Drop-out"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ['rgba(250,164,26)', 'rgba(222, 217, 201)'],
+                            data: [retentionBoys, droputBoys]
+                        }
+                    ]
+                },
+                options: {
+                    //title: {
+                    //    display: true,
+                    //    fontsize: 14,
+                    //    text: 'Total de Pedidos por Situação'
+                    //},
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                var data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map(function (label, i) {
+                                        var meta = chart.getDatasetMeta(0);
+                                        var ds = data.datasets[0];
+                                        var arc = meta.data[i];
+                                        var custom = arc && arc.custom || {};
+                                        var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                                        var arcOpts = chart.options.elements.arc;
+                                        var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                                        var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                                        var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+                                        // We get the value of the current label
+                                        var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                                        return {
+                                            // Instead of `text: label,`
+                                            // We add the value to the string
+                                            text: label + " : " + value + "%",
+                                            fillStyle: fill,
+                                            strokeStyle: stroke,
+                                            lineWidth: bw,
+                                            hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                            index: i
+                                        };
+                                    });
+                                } else {
+                                    return [];
+                                }
+                            }
+                        }
+                    }
+                }
+        });
+
+         //-------------
+        //- DONUT Girls -
+        //--------------
+        var droputGirls =parseFloat( @(Model.ProvinceGirlsDropout.Average() )).toFixed(2);
+        var retentionGirls = parseFloat(100 - droputGirls).toFixed(2);
+        new Chart(document.getElementById("doughnut-girls"), {
+                type: 'doughnut',
+                data: {
+                    labels: ["Retained", "Drop-out"],
+                    datasets: [
+                        {
+                            label: "Population (millions)",
+                            backgroundColor: ['rgba(215, 26, 50, 1)', 'rgba(250,164,26,0.8)'],
+                            data: [retentionGirls, droputGirls]
+                        }
+                    ]
+                },
+                options: {
+                    //title: {
+                    //    display: true,
+                    //    fontsize: 14,
+                    //    text: 'Total de Pedidos por Situação'
+                    //},
+                    legend: {
+                        display: true,
+                        position: 'top',
+                        labels: {
+                            generateLabels: function (chart) {
+                                var data = chart.data;
+                                if (data.labels.length && data.datasets.length) {
+                                    return data.labels.map(function (label, i) {
+                                        var meta = chart.getDatasetMeta(0);
+                                        var ds = data.datasets[0];
+                                        var arc = meta.data[i];
+                                        var custom = arc && arc.custom || {};
+                                        var getValueAtIndexOrDefault = Chart.helpers.getValueAtIndexOrDefault;
+                                        var arcOpts = chart.options.elements.arc;
+                                        var fill = custom.backgroundColor ? custom.backgroundColor : getValueAtIndexOrDefault(ds.backgroundColor, i, arcOpts.backgroundColor);
+                                        var stroke = custom.borderColor ? custom.borderColor : getValueAtIndexOrDefault(ds.borderColor, i, arcOpts.borderColor);
+                                        var bw = custom.borderWidth ? custom.borderWidth : getValueAtIndexOrDefault(ds.borderWidth, i, arcOpts.borderWidth);
+
+                                        // We get the value of the current label
+                                        var value = chart.config.data.datasets[arc._datasetIndex].data[arc._index];
+
+                                        return {
+                                            // Instead of `text: label,`
+                                            // We add the value to the string
+                                            text: label + " : " + value + "%",
+                                            fillStyle: fill,
+                                            strokeStyle: stroke,
+                                            lineWidth: bw,
+                                            hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                            index: i
+                                        };
+                                    });
+                                } else {
+                                    return [];
+                                }
+                            }
+                        }
+                    }
+                }
+        });
+        
+        //-------------
+        //- BAR CHART -
+        //-------------
+
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'horizontalBar',
+            data: {
+
+               // labels: ["AJK", "Balochi", "GB", "ICT", "KP", "Punjab", "Sindh"],
+                labels: @Html.Raw(Json.Serialize(Model.Province)),
+
+                datasets: [
+                  {
+                        label: "Girls Retained",
+                        backgroundColor: 'rgba(215, 26, 50, 1)',
+                        data: @Html.Raw(Json.Serialize(Model.ProvinceGirlsRetain)),
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                    },    {
+                        label: "Girls Drop-out",
+                        backgroundColor: 'rgba(215, 26, 50, 0.4)',
+                        data: @Html.Raw(Json.Serialize(Model.ProvinceGirlsDropout)),
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                    },
+              {
+                        label: "Boys Retained ",
+                        backgroundColor: 'rgba(102,64,58, 1)',
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        data:@Html.Raw(Json.Serialize(Model.ProvinceBoysRetain)) ,
+                    },
+                    {
+                        label: "Boys Drop-out",
+                        backgroundColor: 'rgba(102,64,58, 0.4)',
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        data:@Html.Raw(Json.Serialize(Model.ProvinceBoysDropout)) ,
+                    },
+                    
+                ]
+            },
+            options: {
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        afterTitle: function () {
+                            window.total = 0;
+                        },
+                        label: function (tooltipItem, data) {
+                            var corporation = data.datasets[tooltipItem.datasetIndex].label;
+                            var valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            window.total += valor;
+                            return corporation + ": " + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")+ " %";
+                        },
+                        footer: function () {
+                            return "Over All: " + window.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/2+ " %";
+                        }
+                    }
+                },
+                //legend: { display: false },
+                title: {
+                    //display: true,
+                    //text: 'Predicted world population (millions) in 2050'
+                },
+                // },
+                onComplete: function () {
+
+                    var ctx = this.chart.ctx;
+                    ctx.font = this.scale.font;
+                    ctx.fillStyle = this.scale.textColor
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "bottom";
+
+                    this.datasets.forEach(function (dataset) {
+                        dataset.points.forEach(function (points) {
+                            ctx.fillText(points.value, points.x, points.y - 10);
+                        });
+                    })
+                }
+
+            }
+
+        });
+
+        //-------------
+        //- Partner CHART -
+        //-------------
+
+        new Chart(document.getElementById("Partner-chart"), {
+            type: 'horizontalBar',
+            data: {
+
+               // labels: ["AJK", "Balochi", "GB", "ICT", "KP", "Punjab", "Sindh"],
+                labels: @Html.Raw(Json.Serialize(Model.Partners)),
+
+                datasets: [
+                  {
+                        label: "Girls Retained",
+                        backgroundColor: 'rgba(250,164,26, 1)',
+                        data: @Html.Raw(Json.Serialize(Model.PartnerGirlsRetain)),
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                    },  {
+                        label: "Girls Drop-out",
+                        backgroundColor: 'rgba(250,164,26, 0.6)',
+                        data: @Html.Raw(Json.Serialize(Model.PartnerGirlsDropout)),
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                    }, 
+                     {
+                        label: "Boys Retained",
+                         backgroundColor: 'rgba(102,64,58, 0.7)',
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        data:@Html.Raw(Json.Serialize(Model.partnerBoysRetain)) ,
+                    },{
+                        label: "Boys Drop-out",
+                         backgroundColor: 'rgba(102,64,58, 0.3)',
+                        //data: [3666, 3223, 3002, 5193, 2924, 4946, 3504]
+                        data:@Html.Raw(Json.Serialize(Model.partnerBoysDropout)) ,
+                    },
+                   
+                ]
+            },
+            options: {
+
+                scales: {
+                    xAxes: [{
+                        stacked: true,
+                    }],
+                    yAxes: [{
+                        stacked: true
+                    }]
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                        afterTitle: function () {
+                            window.total = 0;
+                        },
+                        label: function (tooltipItem, data) {
+                            var corporation = data.datasets[tooltipItem.datasetIndex].label;
+                            var valor = data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index];
+                            window.total += valor;
+                            return corporation + ": " + valor.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")+ " %";
+                        },
+                        footer: function () {
+                            return "Over all: " + window.total.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")/2 + " %";
+                        }
+                    }
+                },
+                //legend: { display: false },
+                title: {
+                    //display: true,
+                    //text: 'Predicted world population (millions) in 2050'
+                },
+                // },
+                onComplete: function () {
+
+                    var ctx = this.chart.ctx;
+                    ctx.font = this.scale.font;
+                    ctx.fillStyle = this.scale.textColor
+                    ctx.textAlign = "center";
+                    ctx.textBaseline = "bottom";
+
+                    this.datasets.forEach(function (dataset) {
+                        dataset.points.forEach(function (points) {
+                            ctx.fillText(points.value, points.x, points.y - 10);
+                        });
+                    })
+                }
+
+            }
+
+        });
+
+      
+
+    })</script>

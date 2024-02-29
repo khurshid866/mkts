@@ -1,0 +1,125 @@
+﻿@model IEnumerable<MKTS.Models.Data.Training>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProvinceName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DistrictName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ThemeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Partner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TrainingType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GroupName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Duration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ConductedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticipantType1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Male1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Female1)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ParticipantType2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Male2)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Female2)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProvinceName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DistrictName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ThemeName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Partner)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TrainingType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GroupName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Duration)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ConductedBy)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantType1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Male1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Female1)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ParticipantType2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Male2)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Female2)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.TrainingID">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.TrainingID">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.TrainingID">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

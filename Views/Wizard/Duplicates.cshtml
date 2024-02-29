@@ -1,0 +1,64 @@
+﻿
+    <style>
+        #divLoading {
+            position: absolute;
+            display: none;
+            top: 20%;
+            left: 20%;
+            right: 5%;
+            bottom: 10%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 2;
+            cursor: pointer;
+        }
+    </style>
+    <section class="content-header">
+        <h2>Step 2: Identify Duplicate Records </h2>
+    </section>
+    <div id="divLoading">
+        <div id="loading-div" class="ui-corner-all text-center fa-align-center" style="margin-top:10%; color:white">
+            <div id="loadingbar"><i class="fa fa-spinner fa-spin fa-3x fa-fw"></i></div>
+            <h3 style="color:white;font-weight:normal;">Parsing Duplicate Records....</h3>
+            <h4 style="color:white;font-weight:normal;">Total Rcords @ViewBag.tot</h4>
+            Estimatated Time Remaining :
+            <span class="countdown"></span>
+        </div>
+    </div>
+
+
+    <div id="dynamicContentContainer"></div>
+
+    @section Scripts {
+
+        <script src="~/libs/jquery-sparklines/jquery.sparkline.min.js"></script>
+        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        <script type="text/javascript">
+
+            $("#divLoading").show();
+            var minutes = @ViewBag.Time, seconds = 29;
+            jQuery(function () {
+                jQuery("span.countdown").html(minutes + ":" + seconds);
+                var count = setInterval(function ()
+                {
+                    if (parseInt(minutes) < 0)
+                    { clearInterval(count); }
+                    else {
+                        jQuery("span.countdown").html(minutes + ":" + seconds);
+                        if (seconds == 0)
+                        {
+                            minutes--;
+                            //if (minutes == 9) minutes = "0" + minutes; 
+                            seconds = 59;
+                        }
+                        seconds--;
+                        //if (seconds == 9) minutes = "0" + seconds;
+                    }
+                }, 1000);
+            })
+
+          $.get('@Url.Action("DuplicatePartial", new { id = @ViewBag.id})', function (content) {
+            $("#dynamicContentContainer").html(content);
+            $("#divLoading").hide();
+    });
+        </script>
+    }
